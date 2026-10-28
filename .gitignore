@@ -6,3 +6,6 @@ Thumbs.db
 
 # Log
 *.log
+
+# Dokumen pengumpulan (tidak perlu masuk repo)
+Pengumpulan_*.docx
