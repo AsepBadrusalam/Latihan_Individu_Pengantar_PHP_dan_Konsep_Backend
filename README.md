@@ -35,15 +35,18 @@ IPS = total (bobot x SKS) / total SKS
 ```
 .
 ├── index.php              # Halaman utama (tabel + ringkasan IPS)
-├── start.bat              # Jalankan server lokal tanpa setting PATH
+├── start.bat              # Server PHP bawaan (localhost:8000)
+├── buka-xampp.bat         # Buka via Apache XAMPP (localhost/pemweb)
 ├── includes/
 │   ├── data.php           # Array $matkul
 │   └── functions.php      # hitungBobot(), tentukanStatus(), hitungRingkasan(), e()
 ├── assets/
 │   └── style.css          # Styling tabel, badge, dan ringkasan
-├── screenshot.png         # Bukti output di localhost
 └── README.md
 ```
+
+Repo ini hanya berisi kode sumber. File screenshot dan dokumen pengumpulan
+sengaja tidak di-commit (lihat `.gitignore`).
 
 ## Cara Menjalankan
 
@@ -51,13 +54,20 @@ PHP **tidak perlu di-download** jika XAMPP atau Laragon sudah terpasang. Skrip
 `start.bat` otomatis mencari `php.exe` dari PATH, `C:\xampp\php`, atau
 `C:\laragon\bin\php`.
 
-### Opsi 1 — Klik `start.bat` (paling mudah, Windows)
+### Opsi 1 — `buka-xampp.bat` (Apache XAMPP)
+
+1. Dobel-klik `buka-xampp.bat`.
+2. Script menyalakan Apache bila belum jalan, lalu menyambungkan folder proyek ke
+   `C:\xampp\htdocs\pemweb` memakai **junction** (tanpa copy, edit langsung terlihat).
+3. Browser terbuka otomatis di <http://localhost/pemweb/>.
+
+### Opsi 2 — `start.bat` (server PHP bawaan, tanpa Apache)
 
 1. Dobel-klik `start.bat` di folder proyek.
 2. Browser terbuka otomatis di <http://localhost:8000>.
 3. Untuk port lain: `start.bat 8080`.
 
-### Opsi 2 — PHP built-in server manual
+### Opsi 3 — PHP built-in server manual
 
 ```bash
 php -S localhost:8000
@@ -65,7 +75,7 @@ php -S localhost:8000
 
 Lalu buka <http://localhost:8000> di browser.
 
-### Opsi 3 — XAMPP
+### Opsi 4 — XAMPP manual
 
 1. Salin folder proyek ke `C:\xampp\htdocs\pemweb`.
 2. Jalankan **Apache** dari XAMPP Control Panel.
@@ -82,8 +92,6 @@ Install salah satu:
 Setelah itu jalankan `start.bat` lagi.
 
 ## Hasil
-
-![Screenshot output di localhost](screenshot.png)
 
 Data contoh menghasilkan IPS **3.06** dari 16 SKS, sehingga batas SKS semester
 depan adalah **24 SKS**, dengan mata kuliah Statistika (nilai 45) berstatus
