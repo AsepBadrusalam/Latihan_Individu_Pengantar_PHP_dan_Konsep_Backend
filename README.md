@@ -3,6 +3,8 @@
 Kartu Hasil Studi sederhana berbasis PHP native yang menghitung nilai huruf, status
 kelulusan, IPS, dan batas SKS semester depan dari sebuah array multidimensi.
 
+Repo: <https://github.com/AsepBadrusalam/Latihan_Individu_Pengantar_PHP_dan_Konsep_Backend>
+
 ## Fitur
 
 - Array multidimensi `$matkul` berisi 6 mata kuliah dengan key `nama`, `sks`, dan `nilai` (0–100).
