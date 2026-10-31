@@ -1,10 +1,10 @@
 <?php
 
 $matkul = [
-    ['nama' => 'Sistem Operasi',                  'sks' => 3, 'nilai' => 88],
-    ['nama' => 'Jaringan Komputer',               'sks' => 3, 'nilai' => 76],
-    ['nama' => 'Sistem Basis Data',               'sks' => 3, 'nilai' => 82],
-    ['nama' => 'Internet of Things',              'sks' => 2, 'nilai' => 45],
-    ['nama' => 'Pemrograman Web',                 'sks' => 3, 'nilai' => 91],
-    ['nama' => 'Pengantar Kecerdasan Artificial', 'sks' => 2, 'nilai' => 64],
+    ['nama' => 'Pemrograman Web',    'sks' => 3, 'nilai' => 88],
+    ['nama' => 'Basis Data',         'sks' => 3, 'nilai' => 82],
+    ['nama' => 'Struktur Data',      'sks' => 3, 'nilai' => 75],
+    ['nama' => 'Jaringan Komputer',  'sks' => 2, 'nilai' => 60],
+    ['nama' => 'Sistem Operasi',     'sks' => 3, 'nilai' => 91],
+    ['nama' => 'Statistika',         'sks' => 2, 'nilai' => 45],
 ];
