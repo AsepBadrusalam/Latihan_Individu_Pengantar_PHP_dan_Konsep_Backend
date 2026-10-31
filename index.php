@@ -1,110 +1,51 @@
 <?php
+require __DIR__ . '/src/php/data.php';
+require __DIR__ . '/src/php/nilai.php';
 
-declare(strict_types=1);
-
-require __DIR__ . '/includes/data.php';
-require __DIR__ . '/includes/functions.php';
-
-$ringkasan = hitungRingkasan($matkul);
+$nilaiMatkul = olahNilai($matkul);
+$ringkasan   = ringkasanIps($nilaiMatkul);
 ?>
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kartu Hasil Studi - Latihan Individu PHP</title>
-    <link rel="stylesheet" href="assets/style.css">
+    <title>Kartu Hasil Studi</title>
+    <link rel="stylesheet" href="src/style.css">
 </head>
-
 <body>
-    <main class="card">
-        <header class="card__header">
-            <p class="eyebrow">Latihan Individu &middot; Pengantar PHP &amp; Konsep Backend</p>
-            <h1>Kartu Hasil Studi</h1>
-            <p class="subtitle">
-                Perhitungan nilai huruf, status kelulusan, dan IPS menggunakan array multidimensi.
-            </p>
-        </header>
+    <h2>Kartu Hasil Studi</h2>
 
-        <div class="table-wrapper">
-            <table>
-                <thead>
-                    <tr>
-                        <th class="col-no">No</th>
-                        <th>Mata Kuliah</th>
-                        <th class="col-center">SKS</th>
-                        <th class="col-center">Nilai Angka</th>
-                        <th class="col-center">Nilai Huruf</th>
-                        <th class="col-center">Bobot</th>
-                        <th class="col-center">Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($matkul as $index => $mk) : ?>
-                        <?php
-                        $hasil = hitungBobot((float) $mk['nilai']);
-                        $status = tentukanStatus($hasil['bobot']);
-                        $barisMengulang = $status === 'MENGULANG';
-                        ?>
-                        <tr class="<?= $barisMengulang ? 'row-mengulang' : '' ?>">
-                            <td class="col-no"><?= $index + 1 ?></td>
-                            <td class="col-nama"><?= e($mk['nama']) ?></td>
-                            <td class="col-center"><?= e($mk['sks']) ?></td>
-                            <td class="col-center"><?= e($mk['nilai']) ?></td>
-                            <td class="col-center"><?= e($hasil['huruf']) ?></td>
-                            <td class="col-center"><?= number_format($hasil['bobot'], 1) ?></td>
-                            <td class="col-center">
-                                <span class="badge <?= $barisMengulang ? 'badge--danger' : 'badge--success' ?>">
-                                    <?= e($status) ?>
-                                </span>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <th colspan="2">Total</th>
-                        <th class="col-center"><?= e($ringkasan['total_sks']) ?></th>
-                        <th colspan="4"></th>
-                    </tr>
-                </tfoot>
-            </table>
-        </div>
+    <table class="khs">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Mata Kuliah</th>
+                <th>SKS</th>
+                <th>Nilai Angka</th>
+                <th>Nilai Huruf</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($nilaiMatkul as $i => $mk): ?>
+            <tr class="<?= $mk['status'] === 'MENGULANG' ? 'mengulang' : '' ?>">
+                <td class="tengah"><?= $i + 1 ?></td>
+                <td><?= e($mk['nama']) ?></td>
+                <td class="tengah"><?= e($mk['sks']) ?></td>
+                <td class="tengah"><?= e($mk['nilai']) ?></td>
+                <td class="tengah"><?= e($mk['huruf']) ?></td>
+                <td class="tengah"><?= e($mk['status']) ?></td>
+            </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
 
-        <section class="ringkasan" aria-label="Ringkasan IPS">
-            <div class="ringkasan__item">
-                <span class="ringkasan__label">Total SKS</span>
-                <span class="ringkasan__value"><?= e($ringkasan['total_sks']) ?></span>
-            </div>
-            <div class="ringkasan__item">
-                <span class="ringkasan__label">Total Mutu</span>
-                <span class="ringkasan__value"><?= number_format($ringkasan['total_mutu'], 2) ?></span>
-            </div>
-            <div class="ringkasan__item ringkasan__item--highlight">
-                <span class="ringkasan__label">IPS</span>
-                <span class="ringkasan__value"><?= number_format($ringkasan['ips'], 2) ?></span>
-                <span class="ringkasan__note">
-                    <?= number_format($ringkasan['total_mutu'], 2) ?> / <?= e($ringkasan['total_sks']) ?> SKS
-                </span>
-            </div>
-            <div class="ringkasan__item">
-                <span class="ringkasan__label">Batas SKS Semester Depan</span>
-                <span class="ringkasan__value"><?= e($ringkasan['batas_sks']) ?> <small>SKS</small></span>
-                <span class="ringkasan__note">
-                    <?= $ringkasan['ips'] >= 3.00 ? 'IPS &ge; 3.00' : 'IPS &lt; 3.00' ?>
-                </span>
-            </div>
-        </section>
-
-        <footer class="card__footer">
-            <p>
-                <strong>Keterangan:</strong> LULUS jika bobot &ge; 2.0 (A, B, C);
-                MENGULANG jika bobot di bawahnya (D, E).
-            </p>
-            <p>IPS &ge; 3.00 &rarr; maksimal 24 SKS &middot; IPS &lt; 3.00 &rarr; maksimal 20 SKS.</p>
-        </footer>
-    </main>
+    <h3>Ringkasan IPS</h3>
+    <table class="ringkasan">
+        <tr><td>Total SKS</td><td>: <?= $ringkasan['totalSks'] ?></td></tr>
+        <tr><td>Total Mutu (SKS x Bobot)</td><td>: <?= number_format($ringkasan['totalMutu'], 1) ?></td></tr>
+        <tr><td>IPS</td><td>: <?= number_format($ringkasan['ips'], 2) ?></td></tr>
+        <tr><td>Maks. SKS semester depan</td><td>: <?= $ringkasan['maksSks'] ?> SKS</td></tr>
+    </table>
 </body>
-
 </html>
